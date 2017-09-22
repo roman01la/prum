@@ -12,11 +12,11 @@
     [rum.examples.bmi-calculator :as bmi-calculator]
     [rum.examples.form-validation :as form-validation]
     [rum.examples.inputs :as inputs]
-    [rum.examples.refs :as refs]
+    ;[rum.examples.refs :as refs]
     [rum.examples.local-state :as local-state]
     [rum.examples.keys :as keys]
     [rum.examples.self-reference :as self-reference]
-    [rum.examples.context :as context]
+    ;[rum.examples.context :as context]
     [rum.examples.custom-props :as custom-props]))
 
 
@@ -33,11 +33,11 @@
 (bmi-calculator/mount!  (core/el "bmi-calculator"))
 (form-validation/mount! (core/el "form-validation"))
 (inputs/mount!          (core/el "inputs"))
-(refs/mount!            (core/el "refs"))
+;(refs/mount!            (core/el "refs"))
 (local-state/mount!     (core/el "local-state"))
 (keys/mount!            (core/el "keys"))
 (self-reference/mount!  (core/el "self-reference"))
-(context/mount!         (core/el "context"))
+;(context/mount!         (core/el "context"))
 (custom-props/mount!    (core/el "custom-props")) 
 
 

@@ -23,7 +23,7 @@
 
 
 (rum/defc board-reactive []
-  [:div.artboard
+  [:div.artboard {}
     (for [y (range 0 core/board-height)]
       [:div.art-row {:key y}
         (for [x (range 0 core/board-width)]
@@ -34,5 +34,5 @@
 
 
 #?(:cljs
-(defn mount! [mount-el]
-  (rum/mount (board-reactive) mount-el)))
+   (defn mount! [mount-el]
+     (rum/mount (board-reactive) mount-el)))

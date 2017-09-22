@@ -5,7 +5,7 @@
 
 
 (rum/defcs comp-mixins < (rum/local 7)
-                         { :will-mount (fn [s] (assoc s ::key 1)) }
+                         { :will-mount (fn [s] (assoc s ::key 1))}
   [state]
   [:div
     [:.local @(:rum/local state)]

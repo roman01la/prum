@@ -27,10 +27,10 @@
 
 
 (rum/defcc custom-props < {:class-properties props} [this]
-  [:div
+  [:div {}
    ;; using aget to avoid writing externs
-   [:div (aget this "msgData")]
-   [:div ((aget this "msgMethod"))]])
+   [:div {} (aget this "msgData")]
+   [:div {} ((aget this "msgMethod"))]])
 
 
 (defn mount! [mount-el]

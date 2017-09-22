@@ -31,13 +31,13 @@
           next (next xs)]
       (cond
         (and (empty? res) (symbol? x))
-          (recur {:name x} next nil)
+        (recur {:name x} next nil)
         (fn-body? xs)        (assoc res :bodies (list xs))
         (every? fn-body? xs) (assoc res :bodies xs)
         (string? x)          (recur (assoc res :doc x) next nil)
         (= '< x)             (recur res next :mixins)
         (= mode :mixins)
-          (recur (update-in res [:mixins] (fnil conj []) x) next :mixins)
+        (recur (update-in res [:mixins] (fnil conj []) x) next :mixins)
         :else
           (throw (IllegalArgumentException. (str "Syntax error at " xs)))))))
 
@@ -113,7 +113,7 @@
         wrapped-render (reduce #(%2 %1) render (collect :wrap-render mixins))] ;; render-fn -> render-fn
     (fn [& args]
       (let [props   nil
-            state   (-> { :rum/args args }
+            state   (-> { :rum/args args}
                         (call-all init props)
                         (call-all will-mount))
             [dom _] (wrapped-render state)]
@@ -165,8 +165,8 @@
 (defn local
   ([initial] (local initial :rum/local))
   ([initial key]
-    {:will-mount (fn [state]
-                   (assoc state key (atom initial)))}))
+   {:will-mount (fn [state]
+                  (assoc state key (atom initial)))}))
 
 
 (def reactive {})
@@ -189,7 +189,7 @@
   
   Returned value supports deref, swap!, reset!, watches and metadata.
   The only supported option is `:meta`"
-  ^rum.cursor.Cursor [ref path & { :as options }]
+  ^rum.cursor.Cursor [ref path & { :as options}]
   (if (instance? Cursor ref)
     (cursor/Cursor. (.-ref ^Cursor ref) (into (.-path ^Cursor ref) path) (:meta options) (volatile! {}))
     (cursor/Cursor. ref path (:meta options) (volatile! {}))))

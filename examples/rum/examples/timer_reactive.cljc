@@ -14,7 +14,7 @@
 
 
 (rum/defc timer-reactive < rum/reactive []
-  [:div "Reactive: "
+  [:div {} "Reactive: "
     ;; Subscribing to atom changes with rum/react
     ;; Then pass _dereferenced values_ to static component
     (colored-clock (rum/react core/*clock) (rum/react core/*color))])
@@ -22,5 +22,5 @@
 
 ;; After initial mount, all changes will be re-rendered automatically
 #?(:cljs
-(defn mount! [mount-el]
-  (rum/mount (timer-reactive) mount-el)))
+   (defn mount! [mount-el]
+     (rum/mount (timer-reactive) mount-el)))

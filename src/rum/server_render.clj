@@ -15,23 +15,23 @@
 (defn append!
   ([^StringBuilder sb s0] (.append sb s0))
   ([^StringBuilder sb s0 s1]
-    (.append sb s0)
-    (.append sb s1))
+   (.append sb s0)
+   (.append sb s1))
   ([^StringBuilder sb s0 s1 s2]
-    (.append sb s0)
-    (.append sb s1)
-    (.append sb s2))
+   (.append sb s0)
+   (.append sb s1)
+   (.append sb s2))
   ([^StringBuilder sb s0 s1 s2 s3]
-    (.append sb s0)
-    (.append sb s1)
-    (.append sb s2)
-    (.append sb s3))
+   (.append sb s0)
+   (.append sb s1)
+   (.append sb s2)
+   (.append sb s3))
   ([^StringBuilder sb s0 s1 s2 s3 s4]
-    (.append sb s0)
-    (.append sb s1)
-    (.append sb s2)
-    (.append sb s3)
-    (.append sb s4)))
+   (.append sb s0)
+   (.append sb s1)
+   (.append sb s2)
+   (.append sb s3)
+   (.append sb s4)))
 
 
 (defprotocol ToString
@@ -186,7 +186,7 @@
     :xml-lang "xml:lang"
     :xml-space "xml:space"
     :y-channel-selector "yChannelSelector"
-    :zoom-and-pan "zoomAndPan" })
+    :zoom-and-pan "zoomAndPan"})
 
 
 (defn get-value [attrs]
@@ -246,7 +246,7 @@
   (when-not (or (keyword? first)
                 (symbol? first)
                 (string? first))
-    (throw (ex-info "Expected a keyword as a tag" { :tag first })))
+    (throw (ex-info "Expected a keyword as a tag" { :tag first})))
   (let [[tag tag-id tag-classes] (parse-selector first)
         [attrs children] (if (or (map? second)
                                  (nil? second))
@@ -279,15 +279,15 @@
 (defn normalize-css-value [key value]
   (cond
     (contains? unitless-css-props key)
-      (escape-html (to-str value))
+    (escape-html (to-str value))
     (number? value)
-      (str value (when (not= 0 value) "px"))
+    (str value (when (not= 0 value) "px"))
     (and (string? value)
          (re-matches #"\s*\d+\s*" value))
-      (recur key (-> value str/trim Long/parseLong))
+    (recur key (-> value str/trim Long/parseLong))
     (and (string? value)
          (re-matches #"\s*\d+\.\d+\s*" value))
-      (recur key (-> value str/trim Double/parseDouble))
+    (recur key (-> value str/trim Double/parseDouble))
     :else
       (escape-html (to-str value))))
 
@@ -313,16 +313,16 @@
 (defn render-class! [sb first? class]
   (cond
     (nil? class)
-      first?
+    first?
     (string? class)
-      (do
-        (when-not first?
-          (append! sb " "))
-        (append! sb class)
-        false)
+    (do
+      (when-not first?
+        (append! sb " "))
+      (append! sb class)
+      false)
     (or (sequential? class)
         (set? class))
-      (reduce #(render-class! sb %1 %2) first? class)
+    (reduce #(render-class! sb %1 %2) first? class)
     :else
       (render-class! sb first? (to-str class))))
 
@@ -506,11 +506,11 @@
 (defn render-html
   ([src] (render-html src nil))
   ([src opts]
-    (let [sb (StringBuilder.)]
-      (-render-html src nil (volatile! 1) sb)
-      (when-not (nothing? src)
-        (.insert sb (.indexOf sb ">") (str " data-react-checksum=\"" (adler32 sb) "\"")))
-      (str sb))))
+   (let [sb (StringBuilder.)]
+     (-render-html src nil (volatile! 1) sb)
+     (when-not (nothing? src)
+       (.insert sb (.indexOf sb ">") (str " data-react-checksum=\"" (adler32 sb) "\"")))
+     (str sb))))
 
 
 (defn render-static-markup [src]

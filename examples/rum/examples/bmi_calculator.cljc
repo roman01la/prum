@@ -23,11 +23,11 @@
   (let [reset (case param
                 :bmi :weight
                 :bmi)]
-    [:input {:type  "range"
-             :value (int value)
-             :min   min
-             :max   max
-             :style {:width "100%"}
+    [:input {:type      "range"
+             :value     (int value)
+             :min       min
+             :max       max
+             :style     {:width "100%"}
              :on-change #(swap! *bmi-data assoc
                                 param (-> % .-target .-value)
                                 reset nil)}]))
@@ -36,25 +36,25 @@
 (rum/defc bmi-calculator < rum/reactive []
   (let [{:keys [weight height bmi] :as data} (calc-bmi (rum/react *bmi-data))
         [color diagnose] (cond
-                          (< bmi 18.5) ["orange" "underweight"]
-                          (< bmi 25)   ["inherit" "normal"]
-                          (< bmi 30)   ["orange" "overweight"]
-                          :else        ["red" "obese"])]
+                           (< bmi 18.5) ["orange" "underweight"]
+                           (< bmi 25) ["inherit" "normal"]
+                           (< bmi 30) ["orange" "overweight"]
+                           :else ["red" "obese"])]
     (reset! *bmi-data data)
-    [:div.bmi
-      [:div
-        "Height: " (int height) "cm"
-        (slider :height height 100 220)]
-      [:div
-        "Weight: " (int weight) "kg"
-        (slider :weight weight 30 150)]
-      [:div
-        "BMI: " (int bmi) " "
-        [:span {:style {:color color}} diagnose]
-        (slider :bmi bmi 10 50)]]))
+    [:div.bmi {}
+     [:div {}
+      "Height: " (int height) "cm"
+      (slider :height height 100 220)]
+     [:div {}
+      "Weight: " (int weight) "kg"
+      (slider :weight weight 30 150)]
+     [:div {}
+      "BMI: " (int bmi) " "
+      [:span {:style {:color color}} diagnose]
+      (slider :bmi bmi 10 50)]]))
 
 
 ;; After initial mount, all changes will be re-rendered automatically
 #?(:cljs
-(defn mount! [mount-el]
-  (rum/mount (bmi-calculator) mount-el)))
+   (defn mount! [mount-el]
+     (rum/mount (bmi-calculator) mount-el)))

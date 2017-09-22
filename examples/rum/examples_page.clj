@@ -9,13 +9,13 @@
     [rum.examples.board-reactive :as board-reactive]
     [rum.examples.bmi-calculator :as bmi-calculator]
     [rum.examples.inputs         :as inputs]
-    [rum.examples.refs           :as refs]
+    ;[rum.examples.refs           :as refs]
     [rum.examples.local-state    :as local-state]
     [rum.examples.keys           :as keys]
     [rum.examples.self-reference :as self-reference]))
 
 (def page (str
-"<!doctype html>
+           "<!doctype html>
 <html>
   <head>
     <meta http-equiv='content-type' content='text/html;charset=UTF-8'/>
@@ -83,11 +83,6 @@
     <div class=example>
       <div class=example-title>Inputs</div>
       <div id=inputs>" (rum/render-html (inputs/inputs)) "</div>
-    </div>
-            
-    <div class=example>
-      <div class=example-title>Refs</div>
-      <div id=refs>" (rum/render-html (refs/refs)) "</div>
     </div>
 
     <div class=example>

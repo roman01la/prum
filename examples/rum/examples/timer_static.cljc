@@ -9,15 +9,16 @@
 
 
 (rum/defc timer-static < rum/static [label ts]
-  [:div label ": "
+  [:div {} label ": "
     [:span {:style {:color @core/*color}} (core/format-time ts)]])
 
 
 #?(:cljs
-(defn mount! [mount-el]
-  (rum/mount (timer-static "Static" @core/*clock) mount-el)
-  ;; Setting up watch manually,
-  ;; force top-down re-render via mount
-  (add-watch core/*clock :timer-static
-             (fn [_ _ _ new-val]
-               (rum/mount (timer-static "Static" new-val) mount-el)))))
+   (defn mount! [mount-el]
+     (let [root (atom nil)]
+       (reset! root (rum/mount (timer-static "Static" @core/*clock) mount-el))
+    ;; Setting up watch manually,
+    ;; force top-down re-render via mount
+       (add-watch core/*clock :timer-static
+                  (fn [_ _ _ new-val]
+                    (reset! root (rum/mount (timer-static "Static" new-val) mount-el @root)))))))
