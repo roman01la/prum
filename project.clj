@@ -51,7 +51,7 @@
                     :compiler-stats true
                     :parallel-build true
                     :install-deps   true
-                    :npm-deps       {"preact"                  "8.2.5"
+                    :npm-deps       {"@roman01la/preact"                  "8.2.5"
                                      "preact-render-to-string" "3.6.3"}}}
 
     {:id           "test"
