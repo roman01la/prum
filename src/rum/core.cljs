@@ -4,6 +4,7 @@
   (:require
     [sablono.preact :as p]
     [goog.object :as gobj]
+    [goog.dom :as gdom]
     [rum.cursor :as cursor]
     [rum.util :as util :refer [collect collect* call-all]]
     [rum.derived-atom :as derived-atom]))
@@ -198,7 +199,22 @@
   ([component node]
    (mount component node nil))
   ([component node root]
-   (p/render component node root)))
+   (let [root (p/render component node root)]
+     (gobj/set node "_preactCompatRendered" (or (gobj/get root "_component") #js {:base root}))
+     (if root
+       (gobj/get root "_component")
+       root))))
+
+(defn unmount
+  "Removes component from the DOM tree"
+  [node]
+  (let [root (-> node (gobj/get "_preactCompatRendered") (gobj/get "base"))
+        parent (when root (gdom/getParentElement root))]
+    (if (= parent node)
+      (do
+        (p/render (p/createElement (constantly nil)) node root)
+        true)
+      false)))
 
 ;; initialization
 
