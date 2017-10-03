@@ -13,8 +13,7 @@
 
   :plugins [[lein-cljsbuild "1.1.7"]]
 
-  :profiles {
-             :dev  {:source-paths ["examples"]
+  :profiles {:dev  {:source-paths ["examples"]
                     :dependencies [[clj-diffmatchpatch "0.0.9.3" :exclusions [org.clojure/clojure]]]}
              :perf {:source-paths ["perf"]
                     :dependencies
@@ -39,7 +38,7 @@
                     :compiler-stats true
                     :parallel-build true
                     :install-deps   false
-                    :npm-deps       {"@roman01la/preact"       "8.2.5"
+                    :npm-deps       {"@roman01la/preact"       "8.2.5-1"
                                      "preact-render-to-string" "3.6.3"}}}
 
     {:id           "none"
@@ -54,7 +53,7 @@
                     :compiler-stats true
                     :parallel-build true
                     :install-deps   false
-                    :npm-deps       {"@roman01la/preact"       "8.2.5"
+                    :npm-deps       {"@roman01la/preact"       "8.2.5-1"
                                      "preact-render-to-string" "3.6.3"}}}
 
     {:id           "test"
@@ -69,6 +68,6 @@
                     :pseudo-names   true
                     :parallel-build true
                     :install-deps   false
-                    :npm-deps       {"@roman01la/preact"       "8.2.5"
+                    :npm-deps       {"@roman01la/preact"       "8.2.5-1"
                                      "preact-render-to-string" "3.6.3"}}}]})
 
