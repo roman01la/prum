@@ -10,18 +10,15 @@
 ;; value being set by an ancestor component.
 
 
-(rum/defcc rum-context-comp < {:class-properties {:contextTypes {:color nil}}}
-  [comp]
+(rum/defcc rum-context-comp [comp]
   [:span
-   {:style {:color (.. comp -context -color)}}
+   {:style {:color (rum/context comp :color)}}
    "Child component uses context to set font color."])
 
 
 ;; Assume the following component is from our source code.
 (def color-theme
-  {:child-context    (fn [state] {:color @core/*color})
-   :class-properties {:childContextTypes {:color nil}}})
-
+  {:child-context    (fn [state] {:color @core/*color})})
 
 (rum/defc context < color-theme []
   [:div {}

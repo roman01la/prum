@@ -223,6 +223,11 @@
   [state key]
   (-> (ref state key) (gobj/get "base")))
 
+(defn context [component key]
+  (-> component
+      (gobj/get "context")
+      (gobj/get (name key))))
+
 
 ;; static mixin
 

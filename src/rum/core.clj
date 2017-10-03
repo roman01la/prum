@@ -158,6 +158,9 @@
 (defn use-ref [component key]
   key)
 
+(defn context [component key]
+  key)
+
 
 ;; mixins
 
