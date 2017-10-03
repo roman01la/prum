@@ -155,6 +155,9 @@
 (defn with-ref [element ref]
   element)
 
+(defn use-ref [component key]
+  key)
+
 
 ;; mixins
 

@@ -15,23 +15,23 @@
 
 
 (defn- build-class [render mixins display-name]
-  (let [init           (collect   :init mixins)             ;; state props -> state
-        will-mount     (collect* [:will-mount               ;; state -> state
-                                  :before-render] mixins)   ;; state -> state
-        render         render                               ;; state -> [dom state]
-        wrap-render    (collect   :wrap-render mixins)      ;; render-fn -> render-fn
+  (let [init (collect :init mixins)                         ;; state props -> state
+        will-mount (collect* [:will-mount                   ;; state -> state
+                              :before-render] mixins)       ;; state -> state
+        render render                                       ;; state -> [dom state]
+        wrap-render (collect :wrap-render mixins)           ;; render-fn -> render-fn
         wrapped-render (reduce #(%2 %1) render wrap-render)
-        did-mount      (collect* [:did-mount                ;; state -> state
-                                  :after-render] mixins)    ;; state -> state
-        did-remount    (collect   :did-remount mixins)      ;; old-state state -> state
-        should-update  (collect   :should-update mixins)    ;; old-state state -> boolean
-        will-update    (collect* [:will-update              ;; state -> state
-                                  :before-render] mixins)   ;; state -> state
-        did-update     (collect* [:did-update               ;; state -> state
-                                  :after-render] mixins)    ;; state -> state
-        will-unmount   (collect   :will-unmount mixins)     ;; state -> state
-        child-context  (collect   :child-context mixins)    ;; state -> child-context
-        class-props    (reduce merge (collect :class-properties mixins)) ;; custom properties and methods
+        did-mount (collect* [:did-mount                     ;; state -> state
+                             :after-render] mixins)         ;; state -> state
+        did-remount (collect :did-remount mixins)           ;; old-state state -> state
+        should-update (collect :should-update mixins)       ;; old-state state -> boolean
+        will-update (collect* [:will-update                 ;; state -> state
+                               :before-render] mixins)      ;; state -> state
+        did-update (collect* [:did-update                   ;; state -> state
+                              :after-render] mixins)        ;; state -> state
+        will-unmount (collect :will-unmount mixins)         ;; state -> state
+        child-context (collect :child-context mixins)       ;; state -> child-context
+        class-props (reduce merge (collect :class-properties mixins)) ;; custom properties and methods
 
         ctor (fn [props]
                (this-as this
@@ -41,6 +41,7 @@
                                     (assoc :rum/react-component this)
                                     (call-all init props)
                                     volatile!)})
+                 (gobj/set this "refs" {})
                  (.call p/Component this props)))]
 
     (gobj/set ctor "displayName" display-name)
@@ -60,9 +61,9 @@
          :componentWillReceiveProps
          (fn [next-props]
            (this-as this
-             (let [old-state  @(state this)
-                   state      (merge old-state
-                                     (gobj/get next-props ":rum/initial-state"))
+             (let [old-state @(state this)
+                   state (merge old-state
+                                (gobj/get next-props ":rum/initial-state"))
                    next-state (reduce #(%2 old-state %1) state did-remount)]
                ;; allocate new volatile so that we can access both old and new states in shouldComponentUpdate
                (.setState this #js {":rum/state" (volatile! next-state)}))))
@@ -103,35 +104,35 @@
              (this-as this
                (let [state @(state this)]
                  (clj->js (transduce (map #(% state)) merge {} child-context))))))}
-      (merge class-props)
-      (->> (util/filter-vals some?))
-      (clj->js)
-      (->> (gobj/extend (gobj/get ctor "prototype"))))
+        (merge class-props)
+        (->> (util/filter-vals some?))
+        (clj->js)
+        (->> (gobj/extend (gobj/get ctor "prototype"))))
     ctor))
 
 
 (defn- build-ctor [render mixins display-name]
-  (let [class  (build-class render mixins display-name)
+  (let [class (build-class render mixins display-name)
         key-fn (first (collect :key-fn mixins))
-        ctor   (if (some? key-fn)
-                 (fn [& args]
-                   (let [props #js { ":rum/initial-state" { :rum/args args}
-                                     "key" (apply key-fn args)}]
-                     (p/createElement class props)))
-                 (fn [& args]
-                   (let [props #js { ":rum/initial-state" { :rum/args args}}]
-                     (p/createElement class props))))]
-    (with-meta ctor { :rum/class class})))
+        ctor (if (some? key-fn)
+               (fn [& args]
+                 (let [props #js {":rum/initial-state" {:rum/args args}
+                                  "key"                (apply key-fn args)}]
+                   (p/createElement class props)))
+               (fn [& args]
+                 (let [props #js {":rum/initial-state" {:rum/args args}}]
+                   (p/createElement class props))))]
+    (with-meta ctor {:rum/class class})))
 
 
 (defn build-defc [render-body mixins display-name]
   (if (empty? mixins)
     (let [class (fn [props]
                   (apply render-body (gobj/get props ":rum/args")))
-          _     (gobj/set class "displayName" display-name)
-          ctor  (fn [& args]
-                  (p/createElement class #js { ":rum/args" args}))]
-      (with-meta ctor { :rum/class class}))
+          _ (gobj/set class "displayName" display-name)
+          ctor (fn [& args]
+                 (p/createElement class #js {":rum/args" args}))]
+      (with-meta ctor {:rum/class class}))
     (let [render (fn [state] [(apply render-body (:rum/args state)) state])]
       (build-ctor render mixins display-name))))
 
@@ -192,19 +193,35 @@
 (defn with-key
   "Adds React key to component"
   [component key]
-  (p/cloneElement component #js { "key" key } nil))
+  (p/cloneElement component #js {"key" key} nil))
 
+(defn use-ref
+  "Adds node to component as React ref"
+  [component key]
+  (fn [node]
+    (let [refs (gobj/get component "refs")]
+      (->> (assoc refs key node)
+           (gobj/set component "refs")))))
 
 (defn with-ref
-  "Adds React ref (string or callback) to component"
+  "Adds React ref to component"
   [component ref]
-  (p/cloneElement component #js { "ref" ref } nil))
-
+  (p/cloneElement component #js {"ref" ref} nil))
 
 (defn dom-node
   "Given state, returns top-level DOM node. Can’t be called during render"
   [state]
   (gobj/get (:rum/react-component state) "base"))
+
+(defn ref
+  "Given state and ref handle, returns React component"
+  [state key]
+  (-> state :rum/react-component (gobj/get "refs") (get key)))
+
+(defn ref-node
+  "Given state and ref handle, returns DOM node associated with ref"
+  [state key]
+  (-> (ref state key) (gobj/get "base")))
 
 
 ;; static mixin
@@ -212,9 +229,9 @@
 (def static
   "Mixin. Will avoid re-render if none of component’s arguments have changed.
    Does equality check (=) on all arguments"
-  { :should-update
-    (fn [old-state new-state]
-      (not= (:rum/args old-state) (:rum/args new-state)))})
+  {:should-update
+   (fn [old-state new-state]
+     (not= (:rum/args old-state) (:rum/args new-state)))})
 
 
 ;; local mixin
@@ -225,14 +242,14 @@
    Atom is stored under user-provided key or under `:rum/local` by default"
   ([initial] (local initial :rum/local))
   ([initial key]
-   { :will-mount
-     (fn [state]
-       (let [local-state (atom initial)
-             component   (:rum/react-component state)]
-         (add-watch local-state key
-           (fn [_ _ _ _]
-             (request-render component)))
-         (assoc state key local-state)))}))
+   {:will-mount
+    (fn [state]
+      (let [local-state (atom initial)
+            component (:rum/react-component state)]
+        (add-watch local-state key
+                   (fn [_ _ _ _]
+                     (request-render component)))
+        (assoc state key local-state)))}))
 
 
 ;; reactive mixin
@@ -242,33 +259,33 @@
 
 (def reactive
   "Mixin. Works in conjunction with `rum.core/react`"
-  { :init
-    (fn [state props]
-      (assoc state :rum.reactive/key (random-uuid)))
-    :wrap-render
-    (fn [render-fn]
-      (fn [state]
-        (binding [*reactions* (volatile! #{})]
-          (let [comp             (:rum/react-component state)
-                old-reactions    (:rum.reactive/refs state #{})
-                [dom next-state] (render-fn state)
-                new-reactions    @*reactions*
-                key              (:rum.reactive/key state)]
-            (doseq [ref old-reactions]
-              (when-not (contains? new-reactions ref)
-                (remove-watch ref key)))
-            (doseq [ref new-reactions]
-              (when-not (contains? old-reactions ref)
-                (add-watch ref key
-                  (fn [_ _ _ _]
-                    (request-render comp)))))
-            [dom (assoc next-state :rum.reactive/refs new-reactions)]))))
-    :will-unmount
-    (fn [state]
-      (let [key (:rum.reactive/key state)]
-        (doseq [ref (:rum.reactive/refs state)]
-          (remove-watch ref key)))
-      (dissoc state :rum.reactive/refs :rum.reactive/key))})
+  {:init
+   (fn [state props]
+     (assoc state :rum.reactive/key (random-uuid)))
+   :wrap-render
+   (fn [render-fn]
+     (fn [state]
+       (binding [*reactions* (volatile! #{})]
+         (let [comp (:rum/react-component state)
+               old-reactions (:rum.reactive/refs state #{})
+               [dom next-state] (render-fn state)
+               new-reactions @*reactions*
+               key (:rum.reactive/key state)]
+           (doseq [ref old-reactions]
+             (when-not (contains? new-reactions ref)
+               (remove-watch ref key)))
+           (doseq [ref new-reactions]
+             (when-not (contains? old-reactions ref)
+               (add-watch ref key
+                          (fn [_ _ _ _]
+                            (request-render comp)))))
+           [dom (assoc next-state :rum.reactive/refs new-reactions)]))))
+   :will-unmount
+   (fn [state]
+     (let [key (:rum.reactive/key state)]
+       (doseq [ref (:rum.reactive/refs state)]
+         (remove-watch ref key)))
+     (dissoc state :rum.reactive/refs :rum.reactive/key))})
 
 
 (defn react
