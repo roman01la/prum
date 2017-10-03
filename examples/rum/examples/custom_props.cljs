@@ -1,6 +1,8 @@
 (ns rum.examples.custom-props
   (:require
     [rum.core :as rum]
+    [sablono.core :refer-macros [html]]
+    [goog.object :as gobj]
     [rum.examples.core :as core]))
 
 
@@ -13,25 +15,25 @@
                (.toString 16))))
 
 (def props
-  {:msgData "Components can store custom data on the underlying React component."
+  {:msgData   "Components can store custom data on the underlying React component."
    :msgMethod #(this-as this
-                 [:div {:style {:cursor "pointer"}
-                        :on-mouse-move
-                        (fn [_]
-                          (reset! core/*color (rand-color))
-                          (aset this "msgData" 
-                                [:div {:style {:color @core/*color}}
-                                  (:msgData props)])
-                          (rum/request-render this))}
-                  "Custom methods too. Hover me!"])})
+                 (html
+                   [:div {:style {:cursor "pointer"}
+                          :on-mouse-move
+                          (fn [_]
+                            (reset! core/*color (rand-color))
+                            (gobj/set this "msgData"
+                                      (html
+                                        [:div {:style {:color @core/*color}}
+                                         (:msgData props)]))
+                            (rum/request-render this))}
+                    "Custom methods too. Hover me!"]))})
 
 
 (rum/defcc custom-props < {:class-properties props} [this]
   [:div {}
-   ;; using aget to avoid writing externs
-   [:div {} (aget this "msgData")]
-   [:div {} ((aget this "msgMethod"))]])
-
+   [:div {} (gobj/get this "msgData")]
+   [:div {} (.call (gobj/get this "msgMethod") this)]])
 
 (defn mount! [mount-el]
   (rum/mount (custom-props) mount-el))

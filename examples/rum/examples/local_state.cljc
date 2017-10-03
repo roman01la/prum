@@ -13,10 +13,10 @@
     [:div
      {:style {"-webkit-user-select" "none"
               "cursor" "pointer"}
-      :on-click (fn [_] (swap! *count inc)) }
+      :on-click (fn [_] (swap! *count inc))}
      title ": " @*count]))
 
 
 #?(:cljs
-(defn mount! [mount-el]
-  (rum/mount (local-state "Clicks count") mount-el)))
+   (defn mount! [mount-el]
+     (rum/mount (local-state "Clicks count") mount-el)))

@@ -11,7 +11,7 @@
   :global-vars
   {*warn-on-reflection* true}
 
-  :plugins [[lein-cljsbuild "1.1.3"]]
+  :plugins [[lein-cljsbuild "1.1.7"]]
 
   :profiles {
              :dev  {:source-paths ["examples"]
@@ -37,7 +37,10 @@
                     :source-map     "target/main.js.map"
                     :pretty-print   false
                     :compiler-stats true
-                    :parallel-build true}}
+                    :parallel-build true
+                    :install-deps   false
+                    :npm-deps       {"@roman01la/preact"       "8.2.5"
+                                     "preact-render-to-string" "3.6.3"}}}
 
     {:id           "none"
      :source-paths ["src" "examples" "test" "../sablono/src"]
@@ -50,8 +53,8 @@
                     :source-map     true
                     :compiler-stats true
                     :parallel-build true
-                    :install-deps   true
-                    :npm-deps       {"@roman01la/preact"                  "8.2.5"
+                    :install-deps   false
+                    :npm-deps       {"@roman01la/preact"       "8.2.5"
                                      "preact-render-to-string" "3.6.3"}}}
 
     {:id           "test"
@@ -64,5 +67,8 @@
                     :optimizations  :advanced
                     :pretty-print   true
                     :pseudo-names   true
-                    :parallel-build true}}]})
+                    :parallel-build true
+                    :install-deps   false
+                    :npm-deps       {"@roman01la/preact"       "8.2.5"
+                                     "preact-render-to-string" "3.6.3"}}}]})
 

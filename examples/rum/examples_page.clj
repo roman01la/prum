@@ -9,7 +9,7 @@
     [rum.examples.board-reactive :as board-reactive]
     [rum.examples.bmi-calculator :as bmi-calculator]
     [rum.examples.inputs         :as inputs]
-    ;[rum.examples.refs           :as refs]
+    [rum.examples.refs           :as refs]
     [rum.examples.local-state    :as local-state]
     [rum.examples.keys           :as keys]
     [rum.examples.self-reference :as self-reference]))
@@ -74,7 +74,7 @@
       <div class=example-title>BMI Calculator</div>
       <div id=bmi-calculator>" (rum/render-html (bmi-calculator/bmi-calculator)) "</div>
     </div>
-    
+
     <div class=example>
       <div class=example-title>Form validation</div>
       <div id=form-validation></div>
@@ -89,12 +89,12 @@
       <div class=example-title>Local state</div>
       <div id=local-state>" (rum/render-html (local-state/local-state "Clicks count")) "</div>
     </div>
-            
+
     <div class=example>
       <div class=example-title>Keys</div>
       <div id=keys>" (rum/render-html (keys/keys)) "</div>
     </div>
-    
+
     <div class=example>
       <div class=example-title>Self-reference</div>
       <div id=self-reference>" (rum/render-html (self-reference/self-reference [:a [:b [:c :d [:e] :g]]])) "</div>
@@ -110,7 +110,7 @@
       <div id=custom-props></div>
     </div>
 
-    
+
     <script src='target/main.js' type='text/javascript'></script>
   </body>
 </html>"))

@@ -15,8 +15,9 @@
 
 
 (rum/defc bit < rum/static [n bit]
-  (swap! *bclock-renders inc)
-  [:td.bclock-bit {:style (when (bit-test n bit) {:backgroundColor @core/*color})}])
+  (let [color (when (bit-test n bit) @core/*color)]
+    (swap! *bclock-renders inc)
+    [:td.bclock-bit {:style {:backgroundColor color}}]))
 
 
 (rum/defc binary-clock < rum/reactive []

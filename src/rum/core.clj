@@ -63,23 +63,23 @@
 
 (defmacro defc
   "Defc does couple of things:
-   
+
      1. Wraps body into sablono/compile-html
      2. Generates render function from that
      3. Takes render function and mixins, builds React class from them
      4. Using that class, generates constructor fn [args]->ReactElement
      5. Defines top-level var with provided name and assigns ctor to it
-  
+
   (rum/defc label [t]
     [:div t])
-  
+
   ;; creates React class
   ;; defines ctor fn (defn label [t] ...) => element
-  
+
   (label \"text\") ;; => returns React element built with label class
-  
+
    Usage:
-  
+
        (defc name doc-string? [< mixins+]? [params*] render-body+)"
   [& body]
   (-defc 'rum.core/build-defc (boolean (:ns &env)) body))
@@ -87,7 +87,7 @@
 
 (defmacro defcs
   "Same as defc, but render will take additional first argument: state
-  
+
    Usage:
 
         (defcs name doc-string? [< mixins+]? [state params*] render-body+)"
@@ -97,7 +97,7 @@
 
 (defmacro defcc
   "Same as defc, but render will take additional first argument: react component
-  
+
    Usage:
 
         (defcc name doc-string? [< mixins+]? [comp params*] render-body+)"
@@ -144,7 +144,7 @@
   (cond
     (render/nothing? element)
     element
-    
+
     (map? (get element 1))
     (assoc-in element [1 :key] key)
 
@@ -178,7 +178,7 @@
 (defn cursor-in
   "Given atom with deep nested value and path inside it, creates an atom-like structure
    that can be used separately from main atom, but will sync changes both ways:
-  
+
      (def db (atom { :users { \"Ivan\" { :age 30 }}}))
      (def ivan (rum/cursor db [:users \"Ivan\"]))
      \\@ivan ;; => { :age 30 }
@@ -186,7 +186,7 @@
      \\@db ;; => { :users { \"Ivan\" { :age 31 }}}
      (swap! db update-in [:users \"Ivan\" :age] inc) ;; => { :users { \"Ivan\" { :age 32 }}}
      \\@ivan ;; => { :age 32 }
-  
+
   Returned value supports deref, swap!, reset!, watches and metadata.
   The only supported option is `:meta`"
   ^rum.cursor.Cursor [ref path & { :as options}]

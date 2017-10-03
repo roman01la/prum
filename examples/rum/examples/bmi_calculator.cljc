@@ -19,7 +19,7 @@
       (assoc data :weight (* bmi h h)))))
 
 
-(defn slider [param value min max]
+(rum/defc slider [param value min max]
   (let [reset (case param
                 :bmi :weight
                 :bmi)]
@@ -40,7 +40,6 @@
                            (< bmi 25) ["inherit" "normal"]
                            (< bmi 30) ["orange" "overweight"]
                            :else ["red" "obese"])]
-    (reset! *bmi-data data)
     [:div.bmi {}
      [:div {}
       "Height: " (int height) "cm"

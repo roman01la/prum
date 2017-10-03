@@ -2,14 +2,11 @@
   (:refer-clojure :exclude [ref])
   (:require-macros rum.core)
   (:require
-    [preact :as p]
-    [sablono.core]
-    [goog :as goog]
+    [sablono.preact :as p]
     [goog.object :as gobj]
     [rum.cursor :as cursor]
     [rum.util :as util :refer [collect collect* call-all]]
     [rum.derived-atom :as derived-atom]))
-
 
 (defn state
   "Given React component, returns Rum state associated with it"
@@ -145,7 +142,7 @@
 
 
 (defn build-defcc [render-body mixins display-name]
-  (let [render (fn [state] [(apply render-body (:rum/react-component state) (:rum/args state)) state])] 
+  (let [render (fn [state] [(apply render-body (:rum/react-component state) (:rum/args state)) state])]
     (build-ctor render mixins display-name)))
 
 
@@ -328,7 +325,7 @@
 (defn cursor-in
   "Given atom with deep nested value and path inside it, creates an atom-like structure
    that can be used separately from main atom, but will sync changes both ways:
-  
+
      (def db (atom { :users { \"Ivan\" { :age 30 }}}))
      (def ivan (rum/cursor db [:users \"Ivan\"]))
      \\@ivan ;; => { :age 30 }
@@ -336,7 +333,7 @@
      \\@db ;; => { :users { \"Ivan\" { :age 31 }}}
      (swap! db update-in [:users \"Ivan\" :age] inc) ;; => { :users { \"Ivan\" { :age 32 }}}
      \\@ivan ;; => { :age 32 }
-  
+
   Returned value supports deref, swap!, reset!, watches and metadata.
   The only supported option is `:meta`"
   [ref path & {:as options}]
