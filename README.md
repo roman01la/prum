@@ -1,3 +1,92 @@
+_Prum is a fork of Rum library that uses Preact.js as an underlying UI rendering facility_
+
+### Differences to Rum/React
+
+#### No Hiccup interpretation
+
+Similar to Rum, Prum is using a lightweight fork of Sablono (Hiccup-style components) to render UI. However interpretation is disabled in Prum, since it adds performance overhead.
+
+Due to this restrictions are the following:
+
+- Do not generate Hiccup elements programmatically
+- Wrap Hiccup elements with `sablono.core/html` macro when returning Hiccup from function
+- A list of forms that may contain Hiccup and will be handled by Sablono: `do`, `let`, `let*`, `letfn*`, `for`, `if`, `if-not`, `when`, `when-not`, `cond`, `case`
+
+#### No optional attributes in Hiccup elements
+
+```clojure
+[:span "text"]     ;; this is not allowed
+
+[:span nil "text"] ;; use nil in place of attributes
+[:span {} "text"]  ;; or an empty map
+```
+
+#### No string refs
+
+Preact supports only function _refs_. However string refs is still useful and easier to use in ClojureScript. To handle this properly there's a new helper function `rum.core/use-ref`
+
+```clojure
+(rum/defc input []
+  [:input {}])
+  
+(rum/defcc form [comp] <
+  {:after-render
+   (fn [state]
+     (rum/ref state :btn) ;; returns DOM node of the element
+     (rum/ref state :input) ;; returns component
+     (rum/ref-node state :input) ;; returns top-level DOM node of the component
+     state)}
+  [:form {}
+    (rum/with-ref (input) (rum/use-ref comp :input))
+    [:button {:ref (rum/use-ref comp :btn)} "text"]])
+```
+
+#### Context API
+
+Preact components doesn't implement `contextTypes` and `childContextTypes` as in React. This means that in Prum there's no need to declare `:contextTypes` and `:childContextTypes` in `:class-properties` mixin.
+
+Also there's a helper function to read from context `rum.core/context`.
+
+```clojure
+(rum/defcc rum-context-comp [comp]
+  [:span
+   {:style {:color (rum/context comp :color)}}
+   "Child component uses context to set font color."])
+  
+(rum/defc context <
+  {:child-context (fn [state] {:color @core/*color})}
+  []
+  [:div {}
+   [:div {} "Root component implicitly passes data to descendants."]
+   (rum-context-comp)])
+``` 
+
+#### Re-rendering
+
+When re-rendering from the root, by default Preact appends to root DOM node. To re-render properly `rum.core/mount` accepts optional third argument, which is the root node to replace.
+
+```clojure
+(def root (rum/mount (app) dom-node)) ;; returns root DOM node
+
+(rum/mount (app) dom-node root) ;; pass in the root node to render and replace
+``` 
+
+#### Collections of child elements
+
+When rendering a list of values, a collection of elements _should not be a vector_.
+
+```clojure
+[:ul {} (mapv render-item items)] ;; this is wrong
+[:ul {} (map render-item items)] ;; this is ok
+
+[:ul {} [[:li {} "#1"] [:li {} "#2"]]] ;; this is wrong
+[:ul {} '([:li {} "#1"] [:li {} "#2"])] ;; this is ok
+```
+
+#### DOM Events
+
+Preact use native (in-browser) event system instead of Synthetic Events system as in React, thus it doesn't change behaviour of DOM events. This means that you have to use `:on-input` if you want the same behaviour as with `:on-change`.
+
 <p align="center"><img src="http://s.tonsky.me/imgs/rum_logo.svg" style="height: 400px;"></p>
 
 Rum is a client/server library for HTML UI. In ClojureScript, it works as React wrapper, in Clojure, it is a static HTML generator.
