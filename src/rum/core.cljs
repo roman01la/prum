@@ -200,19 +200,17 @@
    (mount component node nil))
   ([component node root]
    (let [root (p/render component node root)]
-     (gobj/set node "_preactCompatRendered" (or (gobj/get root "_component") #js {:base root}))
-     (if root
-       (gobj/get root "_component")
-       root))))
+     (gobj/set node ":rum/root-node" root)
+     root)))
 
 (defn unmount
   "Removes component from the DOM tree"
   [node]
-  (let [root (-> node (gobj/get "_preactCompatRendered") (gobj/get "base"))
+  (let [root (gobj/get node ":rum/root-node")
         parent (when root (gdom/getParentElement root))]
     (if (= parent node)
       (do
-        (p/render (p/createElement (constantly nil)) node root)
+        (p/render (p/createElement (constantly nil)) parent root)
         true)
       false)))
 
