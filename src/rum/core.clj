@@ -158,9 +158,6 @@
 (defn use-ref [component key]
   key)
 
-(defn context [component key]
-  key)
-
 
 ;; mixins
 
@@ -277,6 +274,10 @@
 
 (defn ref-node [s k]
   (throw (UnsupportedOperationException. "ref is only available from ClojureScript")))
+
+
+(defn context [component key]
+  (throw (UnsupportedOperationException. "context is only available from ClojureScript")))
 
 
 (defn mount [c n]
