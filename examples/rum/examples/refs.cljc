@@ -1,7 +1,6 @@
 (ns rum.examples.refs
   (:require
     [rum.core :as rum]
-    #?(:cljs [goog.object :as gobj])
     [rum.examples.core :as core]))
 
 (rum/defc textarea [{:keys [on-input]}]
@@ -23,8 +22,9 @@
                          (set! (.-height (.-style tac)) (str (+ 2 (.-scrollHeight tac)) "px"))))
                     state)}
   [comp]
-  (rum/with-ref (textarea {:on-input #(rum/request-render comp)})
-                (rum/use-ref comp :tac)))
+  (rum/with-ref
+    (textarea {:on-input #(rum/request-render comp)})
+    (rum/use-ref comp :tac)))
 
 
 (rum/defcc ta < {:after-render

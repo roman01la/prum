@@ -38,7 +38,7 @@
                     :compiler-stats true
                     :parallel-build true
                     :install-deps   false
-                    :npm-deps       {"@roman01la/preact"       "8.2.5-1"
+                    :npm-deps       {"@roman01la/preact"       "8.2.5-2"
                                      "preact-render-to-string" "3.6.3"}}}
 
     {:id           "none"
@@ -53,7 +53,7 @@
                     :compiler-stats true
                     :parallel-build true
                     :install-deps   false
-                    :npm-deps       {"@roman01la/preact"       "8.2.5-1"
+                    :npm-deps       {"@roman01la/preact"       "8.2.5-2"
                                      "preact-render-to-string" "3.6.3"}}}
 
     {:id           "test"
@@ -68,6 +68,6 @@
                     :pseudo-names   true
                     :parallel-build true
                     :install-deps   false
-                    :npm-deps       {"@roman01la/preact"       "8.2.5-1"
+                    :npm-deps       {"@roman01la/preact"       "8.2.5-2"
                                      "preact-render-to-string" "3.6.3"}}}]})
 
