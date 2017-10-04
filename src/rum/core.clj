@@ -58,7 +58,11 @@
                     (map (fn [[[_ & arglist] & _body]] (vec arglist)) bodies))]
     `(def ~(vary-meta name update :arglists #(or % `(quote ~arglists)))
        ~@(if doc [doc] [])
-       (~builder (fn ~@render-body) ~mixins ~(str name)))))
+       (rum.core/lazy-component ~builder (fn ~@render-body) ~mixins ~(str name)))))
+
+
+(defn lazy-component [builder render mixins display-name]
+  (builder render mixins display-name))
 
 
 (defmacro defc

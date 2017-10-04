@@ -5,6 +5,7 @@
     [sablono.preact :as p]
     [goog.object :as gobj]
     [goog.dom :as gdom]
+    [goog.functions :as gf]
     [rum.cursor :as cursor]
     [rum.util :as util :refer [collect collect* call-all]]
     [rum.derived-atom :as derived-atom]))
@@ -158,6 +159,17 @@
 (defn build-defcc [render-body mixins display-name]
   (let [render (fn [state] [(apply render-body (:rum/react-component state) (:rum/args state)) state])]
     (build-ctor render mixins display-name)))
+
+(defn- set-meta [ctor]
+  (let [f #(let [ctor (ctor)]
+             (.apply ctor ctor (js-arguments)))]
+    (specify! f IMeta (-meta [_] (meta ctor)))
+    f))
+
+(defn lazy-component [builder render mixins display-name]
+  (let [bf #(builder render mixins display-name)
+        ctor (gf/cacheReturnValue bf)]
+    (set-meta ctor)))
 
 
 (defn request-render
