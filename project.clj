@@ -1,4 +1,4 @@
-(defproject rum "0.10.8"
+(defproject org.roman01la/prum "0.10.8"
   :description "ClojureScript wrapper for React"
   :license {:name "Eclipse"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
