@@ -1,4 +1,4 @@
-(defproject org.roman01la/prum "0.10.8-2"
+(defproject org.roman01la/prum "0.10.8-3"
   :description "ClojureScript wrapper for React"
   :license {:name "Eclipse"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
@@ -7,7 +7,7 @@
   :dependencies
   [[org.clojure/clojure "1.8.0"]
    [org.clojure/clojurescript "1.9.908"]
-   [org.roman01la/sablono "0.8.1-3"]]
+   [org.roman01la/sablono "0.8.1-4"]]
 
   :global-vars
   {*warn-on-reflection* true}
