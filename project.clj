@@ -6,7 +6,8 @@
 
   :dependencies
   [[org.clojure/clojure "1.8.0"]
-   [org.clojure/clojurescript "1.9.908"]]
+   [org.clojure/clojurescript "1.9.908"]
+   [org.roman01la/sablono "0.8.1-1"]]
 
   :global-vars
   {*warn-on-reflection* true}
@@ -28,7 +29,7 @@
   :cljsbuild
   {:builds
    [{:id           "advanced"
-     :source-paths ["src" "examples" "test" "../sablono/src"]
+     :source-paths ["src" "examples" "test"]
      :compiler
                    {:main           rum.examples
                     :output-to      "target/main.js"
@@ -42,7 +43,7 @@
                                      "preact-render-to-string" "3.6.3"}}}
 
     {:id           "none"
-     :source-paths ["src" "examples" "test" "../sablono/src"]
+     :source-paths ["src" "examples" "test"]
      :compiler
                    {:main           rum.examples
                     :output-to      "target/main.js"
