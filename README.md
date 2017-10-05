@@ -29,13 +29,16 @@ Preact supports only function _refs_. However string refs is still useful and ea
 (rum/defc input []
   [:input {}])
   
-(rum/defcc form [comp] <
+(rum/defcc form <
   {:after-render
    (fn [state]
      (rum/ref state :btn) ;; returns DOM node of the element
      (rum/ref state :input) ;; returns component
      (rum/ref-node state :input) ;; returns top-level DOM node of the component
      state)}
+
+  [comp]
+
   [:form {}
     (rum/with-ref (input) (rum/use-ref comp :input))
     [:button {:ref (rum/use-ref comp :btn)} "text"]])
