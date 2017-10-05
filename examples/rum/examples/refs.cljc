@@ -3,7 +3,7 @@
     [rum.core :as rum]
     [rum.examples.core :as core]))
 
-(rum/defc textarea [{:keys [on-input]}]
+(rum/defc textarea [{:keys [on-change]}]
   [:textarea
    {:style         {:width   "100%"
                     :padding "10px"
@@ -12,7 +12,7 @@
                     :resize  "none"}
     :default-value "Auto-resizing\ntextarea"
     :placeholder   "Auto-resizing textarea"
-    :on-input      on-input}])
+    :on-change     on-change}])
 
 (rum/defcc tac < {:after-render
                   (fn [state]
@@ -23,7 +23,7 @@
                     state)}
   [comp]
   (rum/with-ref
-    (textarea {:on-input #(rum/request-render comp)})
+    (textarea {:on-change #(rum/request-render comp)})
     (rum/use-ref comp :tac)))
 
 
@@ -44,7 +44,7 @@
                     :resize  "none"}
     :default-value "Auto-resizing\ntextarea"
     :placeholder   "Auto-resizing textarea"
-    :on-input      (fn [_] (rum/request-render comp))}])
+    :on-change     (fn [_] (rum/request-render comp))}])
 
 
 (rum/defc refs []

@@ -6,22 +6,22 @@
 
 
 (rum/defc validating-input < rum/reactive [ref f]
-  [:input {:type     "text"
-           :style    {:width            170
-                      :background-color (when-not (f (rum/react ref))
-                                          (rum/react core/*color))}
-           :value    (rum/react ref)
-           :on-input #(reset! ref (.. % -target -value))}])
+  [:input {:type      "text"
+           :style     {:width            170
+                       :background-color (when-not (f (rum/react ref))
+                                           (rum/react core/*color))}
+           :value     (rum/react ref)
+           :on-change #(reset! ref (.. % -target -value))}])
 
 
 (rum/defcc restricting-input < rum/reactive [comp ref f]
-  [:input {:type     "text"
-           :style    {:width 170}
-           :value    (rum/react ref)
-           :on-input #(let [new-val (.. % -target -value)]
-                        (if (f new-val)
-                          (reset! ref new-val)
-                          (rum/request-render comp)))}])
+  [:input {:type      "text"
+           :style     {:width 170}
+           :value     (rum/react ref)
+           :on-change #(let [new-val (.. % -target -value)]
+                         (if (f new-val)
+                           (reset! ref new-val)
+                           (rum/request-render comp)))}])
 
 
 (rum/defcc restricting-input-native < rum/reactive [comp ref f]

@@ -28,7 +28,7 @@ Preact supports only function _refs_. However string refs is still useful and ea
 ```clojure
 (rum/defc input []
   [:input {}])
-  
+
 (rum/defcc form [comp] <
   {:after-render
    (fn [state]
@@ -52,14 +52,14 @@ Also there's a helper function to read from context `rum.core/context`.
   [:span
    {:style {:color (rum/context comp :color)}}
    "Child component uses context to set font color."])
-  
+
 (rum/defc context <
   {:child-context (fn [state] {:color @core/*color})}
   []
   [:div {}
    [:div {} "Root component implicitly passes data to descendants."]
    (rum-context-comp)])
-``` 
+```
 
 #### Re-rendering
 
@@ -69,7 +69,7 @@ When re-rendering from the root, by default Preact appends to root DOM node. To 
 (def root (rum/mount (app) dom-node)) ;; returns root DOM node
 
 (rum/mount (app) dom-node root) ;; pass in the root node to render and replace
-``` 
+```
 
 #### Collections of child elements
 
@@ -85,7 +85,7 @@ When rendering a list of values, a collection of elements _should not be a vecto
 
 #### DOM Events
 
-Preact use native (in-browser) event system instead of Synthetic Events system as in React, thus it doesn't change behaviour of DOM events. This means that you have to use `:on-input` if you want the same behaviour as with `:on-change`.
+Preact use native (in-browser) event system instead of Synthetic Events system as in React, thus it doesn't change behaviour of DOM events. However to stay compatible with Rum/React, Prum translates `:on-change` handlers into `:on-input` as React does.
 
 <p align="center"><img src="http://s.tonsky.me/imgs/rum_logo.svg" style="height: 400px;"></p>
 
@@ -153,7 +153,7 @@ Rum uses Hiccup-like syntax for defining markup:
   :span#id.class
   :span.class.class2
 ```
-  
+
 By default, if you omit the tag, `div` is assumed:
 
 ```
@@ -267,7 +267,7 @@ One very common use-case is for a component to update when some reference change
 (rum/defc counter < rum/reactive []
   [:div { :on-click (fn [_] (swap! count inc)) }
     "Clicks: " (rum/react count)])
-    
+
 (rum/mount (counter) js/document.body)
 ```
 
@@ -297,7 +297,7 @@ In practice, it’s quite convenient to use:
   (let [local-atom (::key state)]
     [:div { :on-click (fn [_] (swap! local-atom inc)) }
       label ": " @local-atom]))
-      
+
 (rum/mount (stateful "Click count") js/document.body)
 ```
 
@@ -338,7 +338,7 @@ For example, if we have this component defined:
 (rum/defc input [label value]
   [:label label ": "
     [:input { :value value }]])
-    
+
 (input "Your name" "")
 ```
 
@@ -354,7 +354,7 @@ You can read the internal state by using the `rum.core/defcs` (short for “defi
 ```clojure
 (rum/defcs label [state label value]
   [:div "My args:" (pr-str (:rum/args state))])
-  
+
 (label "A" 3) ;; => <div>My args: ["A" 3]</div>
 ```
 
@@ -388,7 +388,7 @@ This mixin will update a component each second:
 
 (rum/defc timer < periodic-update-mixin []
   [:div (.toISOString (js/Date.))])
-  
+
 (rum/mount (timer) js/document.body)
 ```
 
@@ -412,7 +412,7 @@ Here’s a full list of callbacks you can define in a mixin:
 Each component can have any number of mixins:
 
 ```clojure
-(rum/defcs component < rum/static 
+(rum/defcs component < rum/static
                        rum/reactive
                        (rum/local 0 ::count)
                        (rum/local "" ::text)
@@ -629,7 +629,7 @@ Server-side components do not have full lifecycle support, but `:init` and `:wil
 ### 0.10.8
 
 - React 15.4.2-0, Sablono 0.7.7
-- Render boolean `aria-*` values as strings (thx [r0man](https://github.com/r0man), PR #114) 
+- Render boolean `aria-*` values as strings (thx [r0man](https://github.com/r0man), PR #114)
 - Escape attributes during server-side rendering (thx [Alexander Solovyov](https://github.com/piranha), PR #115)
 
 ### 0.10.7
@@ -714,7 +714,7 @@ And couple of optimizations:
 ### 0.9.0
 
 - Better support for server-side rendering of SVG
-- [ BREAKING ] Rum used to support multiple ways to specify attributes. You would expect that both `:allow-full-screen`, `:allowFullScreen` and `"allowFullScreen"` would be normalized to `allowfullscreen`. As a result, you have to face three problems: 
+- [ BREAKING ] Rum used to support multiple ways to specify attributes. You would expect that both `:allow-full-screen`, `:allowFullScreen` and `"allowFullScreen"` would be normalized to `allowfullscreen`. As a result, you have to face three problems:
   - how do I decide which variant to use?
   - how do I ensure consistency accross my team and our codebase?
   - find & replace become harder
