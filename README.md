@@ -1,4 +1,6 @@
-_Prum is a fork of Rum library that uses Preact.js as an underlying UI rendering facility_
+_Prum (Pale Rum) is a fork of Rum library that uses Preact.js as an underlying UI rendering facility_
+
+`[org.roman01la/prum "0.10.8-4"]`
 
 ### Differences to Rum/React
 
