@@ -92,6 +92,8 @@ When rendering a list of values, a collection of elements _should not be a vecto
 
 Preact use native (in-browser) event system instead of Synthetic Events system as in React, thus it doesn't change behaviour of DOM events. However to stay compatible with Rum/React, Prum translates `:on-change` handlers into `:on-input` as React does.
 
+_Below is original unmodified documentation of Rum_
+
 <p align="center"><img src="http://s.tonsky.me/imgs/rum_logo.svg" style="height: 400px;"></p>
 
 Rum is a client/server library for HTML UI. In ClojureScript, it works as React wrapper, in Clojure, it is a static HTML generator.
