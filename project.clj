@@ -7,7 +7,7 @@
   :dependencies
   [[org.clojure/clojure "1.8.0"]
    [org.clojure/clojurescript "1.9.908"]
-   [org.roman01la/sablono "0.8.1-9"]]
+   [org.roman01la/sablono "0.8.1-10"]]
 
   :global-vars
   {*warn-on-reflection* true}
