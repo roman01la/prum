@@ -3,6 +3,7 @@
   (:require-macros rum.core)
   (:require
     [sablono.preact :as p]
+    [sablono.util]
     [goog.object :as gobj]
     [goog.dom :as gdom]
     [goog.functions :as gf]
