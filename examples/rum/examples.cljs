@@ -17,7 +17,8 @@
     [rum.examples.keys :as keys]
     [rum.examples.self-reference :as self-reference]
     [rum.examples.context :as context]
-    [rum.examples.custom-props :as custom-props]))
+    [rum.examples.custom-props :as custom-props]
+    [rum.examples.swap-recognizer :as swap-recognizer]))
 
 
 (enable-console-print!)
@@ -39,6 +40,7 @@
 (self-reference/mount!  (core/el "self-reference"))
 (context/mount!         (core/el "context"))
 (custom-props/mount!    (core/el "custom-props"))
+(swap-recognizer/mount!    (core/el "swap-recognizer"))
 
 
 ;; Start clock ticking
