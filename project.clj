@@ -1,4 +1,4 @@
-(defproject org.roman01la/prum "0.10.8-7"
+(defproject org.roman01la/prum "0.10.8-8"
   :description "ClojureScript wrapper for React"
   :license {:name "Eclipse"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
@@ -7,7 +7,7 @@
   :dependencies
   [[org.clojure/clojure "1.8.0"]
    [org.clojure/clojurescript "1.9.908"]
-   [org.roman01la/sablono "0.8.1-10"]]
+   [org.roman01la/sablono "0.8.1-11"]]
 
   :global-vars
   {*warn-on-reflection* true}
@@ -38,9 +38,7 @@
                     :pretty-print   false
                     :compiler-stats true
                     :parallel-build true
-                    :install-deps   false
-                    :npm-deps       {"@roman01la/preact"       "8.2.5-2"
-                                     "preact-render-to-string" "3.6.3"}}}
+                    :install-deps   true}}
 
     {:id           "none"
      :source-paths ["src" "examples" "test"]
@@ -53,9 +51,7 @@
                     :source-map     true
                     :compiler-stats true
                     :parallel-build true
-                    :install-deps   false
-                    :npm-deps       {"@roman01la/preact"       "8.2.5-2"
-                                     "preact-render-to-string" "3.6.3"}}}
+                    :install-deps   true}}
 
     {:id           "test"
      :source-paths ["src" "test"]
@@ -68,7 +64,5 @@
                     :pretty-print   true
                     :pseudo-names   true
                     :parallel-build true
-                    :install-deps   false
-                    :npm-deps       {"@roman01la/preact"       "8.2.5-2"
-                                     "preact-render-to-string" "3.6.3"}}}]})
+                    :install-deps   true}}]})
 
