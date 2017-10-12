@@ -1,6 +1,5 @@
 (ns rum.examples.swap-recognizer
   (:require [rum.core :as rum]
-            [goog.events :as evt]
             [goog.object :as gobj]))
 
 (def tolerance 100)
@@ -8,8 +7,7 @@
 (def initial-state {:x [] :y [] :match nil})
 
 (defn- capture [state e]
-  (let [touch (-> e (gobj/get "event_") (gobj/get "touches") (gobj/get "0"))]
-    (.preventDefault e)
+  (let [touch (-> e (gobj/get "touches") (gobj/get "0"))]
     (swap! state #(-> %
                       (update :x conj (.-clientX touch))
                       (update :y conj (.-clientY touch))))))
@@ -56,9 +54,9 @@
            set-state #(f (::state st) %)
            capture   #(capture state %)
            compute   #(compute set-state state %)]
-       (evt/listen node "touchstart" capture)
-       (evt/listen node "touchmove" capture)
-       (evt/listen node "touchend" compute)
+       (.addEventListener node "touchstart" capture)
+       (.addEventListener node "touchmove" capture)
+       (.addEventListener node "touchend" compute)
        (-> st
            (assoc ::capture-state state)
            (assoc ::capture capture)
@@ -69,9 +67,9 @@
            state   (::capture-state st)
            capture (::capture st)
            compute (::compute st)]
-       (evt/unlisten node "touchstart" capture)
-       (evt/unlisten node "touchmove" capture)
-       (evt/unlisten node "touchend" compute)
+       (.removeEventListener node "touchstart" capture)
+       (.removeEventListener node "touchmove" capture)
+       (.removeEventListener node "touchend" compute)
        (dissoc st ::capture-state ::capture ::compute)))})
 
 (rum/defcs example <
