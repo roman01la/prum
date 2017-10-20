@@ -1,8 +1,8 @@
-(defproject org.roman01la/prum "0.10.8-8"
-  :description "ClojureScript wrapper for React"
+(defproject org.roman01la/prum "0.10.8-9"
+  :description "ClojureScript wrapper for Preact"
   :license {:name "Eclipse"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
-  :url "https://github.com/tonsky/rum"
+  :url "https://github.com/roman01la/prum"
 
   :dependencies
   [[org.clojure/clojure "1.8.0"]
@@ -31,7 +31,7 @@
    [{:id           "advanced"
      :source-paths ["src" "examples" "test"]
      :compiler
-                   {:main           rum.examples
+                   {:main           prum.examples
                     :output-to      "target/main.js"
                     :optimizations  :advanced
                     :source-map     "target/main.js.map"
@@ -43,7 +43,7 @@
     {:id           "none"
      :source-paths ["src" "examples" "test"]
      :compiler
-                   {:main           rum.examples
+                   {:main           prum.examples
                     :output-to      "target/main.js"
                     :output-dir     "target/none"
                     :asset-path     "target/none"
@@ -56,7 +56,7 @@
     {:id           "test"
      :source-paths ["src" "test"]
      :compiler
-                   {:main           rum.test.server-render
+                   {:main           prum.test.server-render
                     :output-to      "target/test.js"
                     :output-dir     "target/test"
                     :asset-path     "target/test"

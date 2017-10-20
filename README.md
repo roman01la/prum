@@ -626,7 +626,7 @@ Server-side components do not have full lifecycle support, but `:init` and `:wil
 
 ### Examples
 
-- In this repo see [examples/rum/examples/](examples/rum/examples/). [Live version](http://tonsky.me/rum/)
+- In this repo see [examples/rum/examples/](examples/prum/examples/). [Live version](http://tonsky.me/rum/)
 - [DataScript Chat app](https://github.com/tonsky/datascript-chat)
 - [DataScript ToDo app](https://github.com/tonsky/datascript-todo)
 - [DataScript Menu app](https://github.com/tonsky/datascript-menu)
