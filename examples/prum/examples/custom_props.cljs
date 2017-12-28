@@ -1,7 +1,7 @@
 (ns prum.examples.custom-props
   (:require
     [prum.core :as prum]
-    [sablono.core :refer-macros [html]]
+    [prum.compiler :refer-macros [html]]
     [goog.object :as gobj]
     [prum.examples.core :as core]))
 

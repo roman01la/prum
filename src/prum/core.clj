@@ -1,7 +1,7 @@
 (ns prum.core
   (:refer-clojure :exclude [ref])
   (:require
-    [sablono.compiler :as s]
+    [prum.compiler :as c]
     [prum.cursor :as cursor]
     [prum.server-render :as render]
     [prum.util :as util :refer [collect collect* call-all]]
@@ -44,8 +44,8 @@
 
 (defn- compile-body [[argvec conditions & body]]
   (if (and (map? conditions) (seq body))
-    (list argvec conditions (s/compile-html `(do ~@body)))
-    (list argvec (s/compile-html `(do ~@(cons conditions body))))))
+    (list argvec conditions (c/compile-html `(do ~@body)))
+    (list argvec (c/compile-html `(do ~@(cons conditions body))))))
 
 
 (defn- -defc [builder cljs? body]
@@ -68,7 +68,7 @@
 (defmacro defc
   "Defc does couple of things:
 
-     1. Wraps body into sablono/compile-html
+     1. Wraps body into prum.compiler/html
      2. Generates render function from that
      3. Takes render function and mixins, builds React class from them
      4. Using that class, generates constructor fn [args]->ReactElement

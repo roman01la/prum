@@ -1,13 +1,13 @@
-(defproject org.roman01la/prum "0.10.8-9"
+(defproject org.roman01la/prum "0.10.8-10"
   :description "ClojureScript wrapper for Preact"
   :license {:name "Eclipse"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
   :url "https://github.com/roman01la/prum"
 
   :dependencies
-  [[org.clojure/clojure "1.8.0"]
-   [org.clojure/clojurescript "1.9.908"]
-   [org.roman01la/sablono "0.8.1-11"]]
+  [[org.clojure/clojure "1.9.0"]
+   [org.clojure/clojurescript "1.9.946"]
+   [hicada "0.1"]]
 
   :global-vars
   {*warn-on-reflection* true}
@@ -38,7 +38,9 @@
                     :pretty-print   false
                     :compiler-stats true
                     :parallel-build true
-                    :install-deps   true}}
+                    :install-deps   true
+                    :npm-deps       {"prum-preact"             "8.2.5"
+                                     "preact-render-to-string" "3.6.3"}}}
 
     {:id           "none"
      :source-paths ["src" "examples" "test"]
@@ -51,7 +53,9 @@
                     :source-map     true
                     :compiler-stats true
                     :parallel-build true
-                    :install-deps   true}}
+                    :install-deps   true
+                    :npm-deps       {"prum-preact"             "8.2.5"
+                                     "preact-render-to-string" "3.6.3"}}}
 
     {:id           "test"
      :source-paths ["src" "test"]
@@ -64,5 +68,7 @@
                     :pretty-print   true
                     :pseudo-names   true
                     :parallel-build true
-                    :install-deps   true}}]})
+                    :install-deps   true
+                    :npm-deps       {"prum-preact"             "8.2.5"
+                                     "preact-render-to-string" "3.6.3"}}}]})
 

@@ -6,17 +6,23 @@
 
 
 (prum/defc keyed < {:key-fn (fn [label number]
-                             (str label "-" number))}
+                              (str label "-" number))}
   [label number]
   [:div {} (str label "-" number)])
 
 
 (prum/defc keys []
   [:div {}
-   '((keyed "a" 1)
-     (keyed "a" 2)
-     (keyed "b" 1)
-     (prum/with-key (keyed "a" 1) "x"))])
+   (map
+     (fn [[label num key]]
+       (if key
+         (prum/with-key (keyed "a" 1) key)
+         (keyed label num)))
+     [["a" 1]
+      ["a" 2]
+      ["b" 1]
+      ["a" 1 "x"]])])
+
 
 
 #?(:cljs

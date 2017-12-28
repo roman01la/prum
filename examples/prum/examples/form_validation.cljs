@@ -2,7 +2,7 @@
   (:require
     [prum.core :as prum]
     [prum.examples.core :as core]
-    [sablono.preact :as p]))
+    ["prum-preact" :as p]))
 
 
 (prum/defc validating-input < prum/reactive [ref f]

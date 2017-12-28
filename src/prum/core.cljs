@@ -2,8 +2,7 @@
   (:refer-clojure :exclude [ref])
   (:require-macros prum.core)
   (:require
-    [sablono.preact :as p]
-    [sablono.util]
+    ["prum-preact" :as p]
     [goog.object :as gobj]
     [goog.dom :as gdom]
     [goog.functions :as gf]

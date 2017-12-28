@@ -1,26 +1,26 @@
 _Prum (Pale Rum) is a fork of Rum library that uses Preact.js as an underlying UI rendering facility_
 
-`[org.roman01la/prum "0.10.8-9"]`
+`[org.roman01la/prum "0.10.8-10"]`
 
 ### Differences to Rum/React
 
 #### No Hiccup interpretation
 
-Similar to Rum, Prum is using a lightweight fork of Sablono (Hiccup-style components) to render UI. However interpretation is disabled in Prum, since it adds performance overhead.
+Similar to Rum, Prum is using Hiccup compiler to transform Hiccup into JavaScript calls to Preact's API. However Hiccup interpretation is disabled in Prum, since it adds performance overhead.
 
 Due to this restrictions are the following:
 
 - Do not generate Hiccup elements programmatically
-- Wrap Hiccup elements with `sablono.core/html` macro when returning Hiccup from function
-- A list of forms that may contain Hiccup and will be handled by Sablono: `do`, `let`, `let*`, `letfn*`, `for`, `if`, `if-not`, `when`, `when-not`, `cond`, `case`
+- Wrap Hiccup elements with `prum.compiler/html` macro when returning Hiccup from a function
+- A list of forms that may contain Hiccup and will be handled by the compiler: [see here](https://github.com/rauhs/hicada/blob/master/src/hicada/compiler.clj#L111-L184)
+- If the first argument after the tag is a variable, it’s assumed to be the first child
 
-#### No optional attributes in Hiccup elements
+#### Creating ReactNodes from React class components
 
 ```clojure
-[:span "text"]     ;; this is not allowed
+[:> ReactSelect {:value "value" :options options}]
 
-[:span nil "text"] ;; use nil in place of attributes
-[:span {} "text"]  ;; or an empty map
+;; (preact/createElement ReactSelect #js {:value value :options options})
 ```
 
 #### No string refs
