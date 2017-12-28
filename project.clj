@@ -1,13 +1,18 @@
-(defproject org.roman01la/prum "0.10.8-10"
+(defproject org.roman01la/prum "0.10.8-11"
   :description "ClojureScript wrapper for Preact"
   :license {:name "Eclipse"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
   :url "https://github.com/roman01la/prum"
 
-  :dependencies
-  [[org.clojure/clojure "1.9.0"]
-   [org.clojure/clojurescript "1.9.946"]
-   [hicada "0.1"]]
+  :dependencies [[org.clojure/clojure "1.9.0"]
+                 [org.clojure/clojurescript "1.9.946"]
+                 [org.roman01la/cljss "1.5.13"]
+                 [sablono "0.8.1"
+                  :exclusions [org.clojure/clojure
+                               org.omcljs/om cljsjs/react
+                               cljsjs/react-dom
+                               cljsjs/react-dom-server]]
+                 [hicada "0.1"]]
 
   :global-vars
   {*warn-on-reflection* true}

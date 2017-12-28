@@ -18,7 +18,8 @@
     [prum.examples.self-reference :as self-reference]
     [prum.examples.context :as context]
     [prum.examples.custom-props :as custom-props]
-    [prum.examples.swap-recognizer :as swap-recognizer]))
+    [prum.examples.swap-recognizer :as swap-recognizer]
+    [prum.examples.cljss :as cljss]))
 
 
 (enable-console-print!)
@@ -40,7 +41,8 @@
 (self-reference/mount!  (core/el "self-reference"))
 (context/mount!         (core/el "context"))
 (custom-props/mount!    (core/el "custom-props"))
-(swap-recognizer/mount!    (core/el "swap-recognizer"))
+(swap-recognizer/mount! (core/el "swap-recognizer"))
+(cljss/mount!           (core/el "cljss"))
 
 
 ;; Start clock ticking

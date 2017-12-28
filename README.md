@@ -1,6 +1,6 @@
 _Prum (Pale Rum) is a fork of Rum library that uses Preact.js as an underlying UI rendering facility_
 
-`[org.roman01la/prum "0.10.8-10"]`
+`[org.roman01la/prum "0.10.8-11"]`
 
 ### Differences to Rum/React
 
@@ -87,6 +87,14 @@ When rendering a list of values, a collection of elements _should not be a vecto
 [:ul {} [[:li {} "#1"] [:li {} "#2"]]] ;; this is wrong
 [:ul {} '([:li {} "#1"] [:li {} "#2"])] ;; this is ok
 ```
+
+#### Dynamic CSS via `:css` attribute
+
+Provided by [Clojure Style Sheets](https://github.com/roman01la/cljss) library.
+
+```clojure
+[:button {:css {:font-size "12px"}}]
+``` 
 
 #### DOM Events
 
